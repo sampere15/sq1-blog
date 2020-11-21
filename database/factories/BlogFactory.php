@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(Blog::class, function (Faker $faker) {
     return [
         "title" => $faker->sentence,
-        "description" => $faker->paragraph
+        "description" => $faker->paragraphs(rand(1, 5), true)
     ];
 });
