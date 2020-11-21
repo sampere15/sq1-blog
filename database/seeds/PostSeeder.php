@@ -13,7 +13,7 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::where("email", "asampere@sq1thebest.com")->first();
+        $user = User::find(2);
 
         factory(App\Post::class, 10)->create(["user_id" => $user->id]);
     }

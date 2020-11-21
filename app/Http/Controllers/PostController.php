@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Validator;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -25,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view("posts.create");
     }
 
     /**
@@ -36,17 +38,41 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //	Validamos los datos que nos llegan
+    	$data = request()->validate([
+    		"title" => "required|max:50",
+            "description" => "required|max:5000",
+    	]);
+
+        $data["user_id"] = Auth::user()->id;
+
+        Post::create($data);
+
+        return redirect()->route("posts.index");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Blog  $blog
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Blog $blog)
+    public function show(Post $post)
     {
         //
     }
+
+    // //  Check validation before create a post
+    // private function ValidateData($input)
+    // {
+    //     //  Rules to check
+    //     $rules = [
+    //         "title" => "required|max:50",
+    //         "description" => "required|max:5000",
+    //     ];
+
+    //     $validator = Validator::make($input, $rules);
+
+    //     return $validator;
+    // }
 }
