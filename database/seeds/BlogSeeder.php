@@ -15,6 +15,6 @@ class BlogSeeder extends Seeder
     {
         $user = User::where("email", "asampere@sq1thebest.com")->first();
 
-        factory(App\Blog::class, 3)->create(["user_id" => $user->id]);
+        factory(App\Blog::class, 10)->create(["user_id" => $user->id]);
     }
 }

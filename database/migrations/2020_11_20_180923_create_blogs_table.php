@@ -22,7 +22,7 @@ class CreateBlogsTable extends Migration
                 ->onDelete('cascade');
 
             $table->string("title");
-            $table->string("description");
+            $table->longText("description");
             $table->timestamp("publication_date")->useCurrent();
         });
     }
