@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Blog;
+use App\Post;
 use Illuminate\Http\Request;
 
-class BlogController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::orderBy("publication_date", "desc")->get();
-        return view("blogs.index", compact("blogs"));
+        $posts = Post::orderBy("publication_date", "desc")->get();
+        return view("posts.index", compact("posts"));
     }
 
     /**

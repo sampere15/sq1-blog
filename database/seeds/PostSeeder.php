@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Blog;
+use App\Post;
 use App\User;
 
-class BlogSeeder extends Seeder
+class PostSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class BlogSeeder extends Seeder
     {
         $user = User::where("email", "asampere@sq1thebest.com")->first();
 
-        factory(App\Blog::class, 10)->create(["user_id" => $user->id]);
+        factory(App\Post::class, 10)->create(["user_id" => $user->id]);
     }
 }

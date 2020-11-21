@@ -37,9 +37,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    //  A user can have many blogs
-    public function blogs()
+    //  A user can have many posts
+    public function posts()
     {
-        return $this->hasMany('App\Blog');
+        return $this->hasMany('App\Post');
     }
 }
