@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Post extends Model
 {
     protected $fillable = ["user_id", "title", "description", "publication_date"];
 
-    protected $table = 'blogs';
+    protected $table = 'posts';
     //  To avoid the defaults created_ad and updated_at
     public $timestamps = false;
 
@@ -16,7 +16,7 @@ class Blog extends Model
         'publication_date' => 'datetime',
     ];
 
-    //  Relation wit user model. A Blog belongs to a user
+    //  Relation wit user model. A Post belongs to a user
     public function user()
     {
         return $this->belongsTo('App\User');

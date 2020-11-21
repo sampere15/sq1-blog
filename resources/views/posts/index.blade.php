@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-	<h1>Blogs</h1>
+	<h1>Blog</h1>
 
 	<div class="row">
-		@foreach ($blogs as $blog)
-			@include("blogs.components.BlogItem", $blog)
+		@foreach ($posts as $post)
+			@include("posts.components.PostItem", $post)
 		@endforeach
 	</div>
 
