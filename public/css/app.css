@@ -2,3 +2,8 @@
     height: 100%;
     width: 100%;
 }
+
+.error-bold {
+    color: "#ca2f2f";
+    font-weight: bold;
+}
