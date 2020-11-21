@@ -28,3 +28,4 @@ Route::get("/", "PostController@index")->name("posts.index");
 //  Only logged users can create posts
 Route::get("/posts/create", "PostController@create")->name("posts.create")->middleware("auth");
 Route::post("/posts", "PostController@store")->name("posts.store")->middleware("auth");
+Route::get("/posts/{post}", "PostController@show")->name("posts.show");
