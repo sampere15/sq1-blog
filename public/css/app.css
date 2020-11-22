@@ -7,3 +7,15 @@
     color: "#ca2f2f";
     font-weight: bold;
 }
+
+.post-list-item-container {
+    height: 300px;
+}
+
+.post-list-item {
+    /* border: 1px red solid; */
+    height: 280px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
