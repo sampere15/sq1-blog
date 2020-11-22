@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use Caffeinated\Shinobi\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -12,11 +13,14 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+
+        $admin = User::create([
             "name" => "admin",
             "email" => "admin@sq1thebest.com",
             "password" => bcrypt("admin"),
         ]);
+
+        $admin->assignRoles("administrator");
 
         User::create([
             "name" => "Adrián Sampere",

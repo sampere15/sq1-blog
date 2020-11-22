@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
                 ->constrained()
                 ->onDelete('cascade');
 
-            $table->string("title", 50);
+            $table->string("title");
             $table->text("description", 5000);
             $table->timestamp("publication_date")->useCurrent();
         });

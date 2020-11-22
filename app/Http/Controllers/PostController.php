@@ -59,7 +59,7 @@ class PostController extends Controller
     {
         //	Validamos los datos que nos llegan
     	$data = request()->validate([
-    		"title" => "required|max:50",
+    		"title" => "required",
             "description" => "required|max:5000",
     	]);
         //  Add the user id who creates the post
