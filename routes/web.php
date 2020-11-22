@@ -29,3 +29,5 @@ Route::get("/", "PostController@index")->name("posts.index");
 Route::get("/posts/create", "PostController@create")->name("posts.create")->middleware("auth");
 Route::post("/posts", "PostController@store")->name("posts.store")->middleware("auth");
 Route::get("/posts/{post}", "PostController@show")->name("posts.show");
+
+Route::get("users/{user}/post", "PostController@userPosts")->name("user.posts");
