@@ -11,10 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $arrayTablas = ["users", "posts"];
+        $arrayTablas = ["users", "posts", "roles", "permissions"];
         //  Truncate table before seed
     	$this->truncate_tables($arrayTablas);
 
+        $this->call(RoleSeeder::class);
+        $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(PostSeeder::class);
     }
