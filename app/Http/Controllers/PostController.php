@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
@@ -90,5 +91,47 @@ class PostController extends Controller
         $posts = $user->posts;
 
         return view("posts.userPosts", compact("user", "posts"));
+    }
+
+    //  Import posts from API
+    public function import() {
+        return view("posts.importPosts");
+    }
+
+    //  Store posts from API
+    public function storeimport(Request $request) {
+        $data = $request->validate([
+            "url" => "required|url"
+        ]);
+
+        //  Make request and get the posts we want to import
+        $response = Http::get($data["url"]);
+        $posts = $response->json()["data"];
+        //  To check if new post are imported
+        $newPostImported = false;
+        $adminUserId = User::where("name", "admin")->pluck("id")->first();
+
+        foreach ($posts as $post) {
+            //  First check if we have and identical post imported yet
+            $yet = Post::where("title", $post["title"])
+                ->where("description", $post["description"])
+                ->where("publication_date", $post["publication_date"])
+                ->first();
+
+
+            if($yet === null) {
+                //  Add user id
+                $post["user_id"] = $adminUserId;
+                Post::create($post);
+                $newPostImported = true;
+            }
+
+            //  If we have new posts update redis
+            if($newPostImported) {
+                Cache::put(self::POSTS_ALL, $this->getAllPosts(), $this->getRedisEx());
+            }
+        }
+
+        return redirect()->route("posts.index");
     }
 }
