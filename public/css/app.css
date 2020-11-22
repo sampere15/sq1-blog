@@ -4,8 +4,9 @@
 }
 
 .error-bold {
-    color: "#ca2f2f";
-    font-weight: bold;
+    /* color: "#ca2f2f" !important; */
+    color: firebrick;
+    font-weight: bold !important;
 }
 
 .post-list-item-container {

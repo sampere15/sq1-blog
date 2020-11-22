@@ -22,6 +22,7 @@ Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get("/", "PostController@index")->name("posts.index");
+Route::get("/posts", "PostController@index");
 
 //  Post routes
 // Route::get("/posts", "PostController@index")->name("posts.index");
@@ -30,4 +31,7 @@ Route::get("/posts/create", "PostController@create")->name("posts.create")->midd
 Route::post("/posts", "PostController@store")->name("posts.store")->middleware("auth");
 Route::get("/posts/{post}", "PostController@show")->name("posts.show");
 
-Route::get("users/{user}/post", "PostController@userPosts")->name("user.posts");
+Route::get("/users/{user}/post", "PostController@userPosts")->name("user.posts");
+
+Route::get("/importfromapi", "PostController@import")->name("posts.import")->middleware("can:posts.import");
+Route::post("/storeimportfromapi", "PostController@storeimport")->name("posts.storeimport")->middleware("can:posts.import");
