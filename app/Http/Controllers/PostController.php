@@ -13,6 +13,14 @@ class PostController extends Controller
     const POSTS_ALL = "posts.all";
     const EXPIRATION_TIME = 60;
 
+    private function getAllPosts() {
+        return Post::orderBy("publication_date", "desc")->get();
+    }
+
+    private function getRedisEx() {
+        return env('REDIS_EX', self::EXPIRATION_TIME);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +29,8 @@ class PostController extends Controller
     public function index()
     {
         //  Retrieve the data from redis if exists, if not, retrieve from db and store in redis before return it
-        $posts = Cache::remember('posts', env('REDIS_EX', self::EXPIRATION_TIME), function () {
-            return Post::orderBy("publication_date", "desc")->get();
+        $posts = Cache::remember(self::POSTS_ALL, $this->getRedisEx(), function () {
+            return $this->getAllPosts();
         });
 
         return view("posts.index", compact("posts"));
@@ -55,6 +63,9 @@ class PostController extends Controller
         $data["user_id"] = Auth::user()->id;
 
         Post::create($data);
+
+        //  Update redis cache to have the new entry
+        Cache::put(self::POSTS_ALL, $this->getAllPosts(), $this->getRedisEx());
 
         return redirect()->route("posts.index");
     }
