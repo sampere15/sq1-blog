@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Auth;
@@ -81,5 +82,13 @@ class PostController extends Controller
     public function show(Post $post)
     {
         return view("posts.show", compact("post"));
+    }
+
+    //  Show the posts of the user passed
+    public function userPosts(User $user) {
+        //  Retrieve user's posts and return it to the view
+        $posts = $user->posts;
+
+        return view("posts.userPosts", compact("user", "posts"));
     }
 }
