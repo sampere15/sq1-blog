@@ -6,9 +6,13 @@ use App\Post;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
+    const POSTS_ALL = "posts.all";
+    const EXPIRATION_TIME = 60;
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +20,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy("publication_date", "desc")->get();
+        //  Retrieve the data from redis if exists, if not, retrieve from db and store in redis before return it
+        $posts = Cache::remember('posts', env('REDIS_EX', self::EXPIRATION_TIME), function () {
+            return Post::orderBy("publication_date", "desc")->get();
+        });
+
         return view("posts.index", compact("posts"));
     }
 
