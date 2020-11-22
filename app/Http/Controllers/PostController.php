@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
+    //  key to store all posts in redis and expiration time for the key in redis
     const POSTS_ALL = "posts.all";
     const EXPIRATION_TIME = 60;
 
+    //  Function to get all the posts from database
     private function getAllPosts() {
         return Post::orderBy("publication_date", "desc")->get();
     }
-
+    //  Function to retreive the expiration time for keys in redis, get it from env or the default configured
     private function getRedisEx() {
         return env('REDIS_EX', self::EXPIRATION_TIME);
     }
@@ -59,7 +61,7 @@ class PostController extends Controller
     		"title" => "required|max:50",
             "description" => "required|max:5000",
     	]);
-
+        //  Add the user id who creates the post
         $data["user_id"] = Auth::user()->id;
 
         Post::create($data);
@@ -80,18 +82,4 @@ class PostController extends Controller
     {
         return view("posts.show", compact("post"));
     }
-
-    // //  Check validation before create a post
-    // private function ValidateData($input)
-    // {
-    //     //  Rules to check
-    //     $rules = [
-    //         "title" => "required|max:50",
-    //         "description" => "required|max:5000",
-    //     ];
-
-    //     $validator = Validator::make($input, $rules);
-
-    //     return $validator;
-    // }
 }
