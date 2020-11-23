@@ -37,14 +37,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    // public function index($sort = "desc")
+    public function index(Request $request)
     {
+        $postsort = $request->input("postsort") ? $request->input("postsort") : "desc";
         //  Retrieve the data from redis if exists, if not, retrieve from db and store in redis before return it
         $posts = Cache::remember(self::POSTS_ALL, $this->getRedisEx(), function () {
             return $this->getAllPosts();
         });
 
-        return view("posts.index", compact("posts"));
+        return view("posts.index", compact("posts", "postsort"));
     }
 
     /**
