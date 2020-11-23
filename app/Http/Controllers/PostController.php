@@ -14,7 +14,8 @@ class PostController extends Controller
 {
     //  key to store all posts in redis and expiration time for the key in redis
     const POSTS_ALL = "posts.all";
-    const EXPIRATION_TIME = 60;
+    const LAST_POST = "lastpost-";
+    const EXPIRATION_TIME = 60 * 60;
 
     //  Function to get all the posts from database
     private function getAllPosts() {
@@ -23,6 +24,12 @@ class PostController extends Controller
     //  Function to retreive the expiration time for keys in redis, get it from env or the default configured
     private function getRedisEx() {
         return env('REDIS_EX', self::EXPIRATION_TIME);
+    }
+
+    //  FUnction to update redis after a new post is created
+    private function updateRedis() {
+        //  Update key that have all the post to show in the main page
+        Cache::put(self::POSTS_ALL, $this->getAllPosts(), $this->getRedisEx());
     }
 
     /**
@@ -66,10 +73,13 @@ class PostController extends Controller
         //  Add the user id who creates the post
         $data["user_id"] = Auth::user()->id;
 
-        Post::create($data);
+        $post = Post::create($data);
 
         //  Update redis cache to have the new entry
-        Cache::put(self::POSTS_ALL, $this->getAllPosts(), $this->getRedisEx());
+        $this->updateRedis($post);
+
+        //  Update the last post created
+        $this->updateLastPostCached($post);
 
         return redirect()->route("posts.index");
     }
