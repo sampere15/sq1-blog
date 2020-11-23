@@ -13,8 +13,13 @@
     height: 300px;
 }
 
+h3 a, h3 a:hover {
+    text-decoration: none;
+    color: black;
+}
+
 .post-list-item {
-    /* border: 1px red solid; */
+    border: 1px solid #ccc;
     height: 280px;
     padding: 10px;
     background-color: #f8f8f8;
